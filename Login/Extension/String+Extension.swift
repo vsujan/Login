@@ -37,8 +37,8 @@ extension String {
     return components.filter { !$0.isEmpty }.joined(separator: " ")
   }
   
-  var doubleValue: Double? {
-    if let value = Double(self) {
+  var floatValue: Float? {
+    if let value = Float(self) {
       return value
     }
     return nil

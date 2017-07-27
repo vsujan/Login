@@ -14,7 +14,7 @@ protocol EmptyValidator: Validator {
 
 extension EmptyValidator {
   func validate<T>(_ value: T) -> Result<T> {
-    let stringValue = value as! String
+    guard let stringValue = value as? String else { return .error(nil) }
     return stringValue.isEmpty ? .error(error) : .ok(value)
   }
 }

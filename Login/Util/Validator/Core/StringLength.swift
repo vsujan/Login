@@ -16,7 +16,7 @@ protocol StringLengthValidator: Validator {
 
 extension StringLengthValidator {
   func validate<T>(_ value: T) -> Result<T> {
-    let stringValue = value as! String
+    guard let stringValue = value as? String else { return .error(nil) }
     return stringValue.characters.count >= minLength && stringValue.characters.count <= maxLength ?
       .ok(value) :
       .error(error)

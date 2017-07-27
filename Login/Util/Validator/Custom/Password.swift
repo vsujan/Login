@@ -13,6 +13,10 @@ enum PasswordValidationError: Error {
   case weak(reasoning: [PasswordStrengthValidationError])
 }
 
+let PASSWORD_MIN_LENGTH = 8
+let PASSWORD_MAX_LENGTH = 14
+let PASSWORD_SPECIAL_CHARSET = CharacterSet(charactersIn: "!@#$%^&*()")
+
 extension PasswordValidationError: LocalizedError {
   public var errorDescription: String? {
     switch self {
@@ -55,10 +59,8 @@ class PasswordLengthValidator: StringLengthValidator {
   var minLength: Int
   var maxLength: Int
   var error: Error
-  static let minimumPasswordLength: Int = 8
-  static let maximumPasswordLength: Int = 14
   
-  init(minLength: Int = minimumPasswordLength, maxLength: Int = maximumPasswordLength, error: Error = PasswordStrengthValidationError.length) {
+  init(minLength: Int = PASSWORD_MIN_LENGTH, maxLength: Int = PASSWORD_MAX_LENGTH, error: Error = PasswordStrengthValidationError.length) {
     self.minLength = minLength
     self.error = error
     self.maxLength = maxLength
@@ -101,10 +103,9 @@ class PasswordIncludesNumbersValidator: CharacterSetValidator {
 class PasswordIncludesSpecialCharacterValidator: CharacterSetValidator {
   var characterCase: CharacterSet
   var error: Error
-  static let characterSet = CharacterSet(charactersIn: "!@#$%^&*()")
   
-  init(characterCase: CharacterSet = characterSet, error: Error = PasswordStrengthValidationError.missingSpecialCharacter) {
-    self.characterCase = characterCase
+  init(charSet: CharacterSet = PASSWORD_SPECIAL_CHARSET, error: Error = PasswordStrengthValidationError.missingSpecialCharacter) {
+    self.characterCase = charSet
     self.error = error
   }
 }
@@ -112,46 +113,25 @@ class PasswordIncludesSpecialCharacterValidator: CharacterSetValidator {
 class PasswordStrengthValidator: CompositeValidator {
   let validators: [Validator]
   
-  init() {
+  init(minLength: Int = PASSWORD_MIN_LENGTH, maxLength: Int = PASSWORD_MAX_LENGTH, charSet: CharacterSet = PASSWORD_SPECIAL_CHARSET) {
     self.validators = [
-      PasswordLengthValidator(),
+      PasswordLengthValidator(minLength: minLength, maxLength: maxLength),
       PasswordIncludesUppercaseValidator(),
       PasswordIncludesLowercaseValidator(),
       PasswordIncludesNumbersValidator(),
-      PasswordIncludesSpecialCharacterValidator()
+      PasswordIncludesSpecialCharacterValidator(charSet: charSet)
     ]
   }
   
-  func validate<T>(_ value: T) -> Result<T> {
-    let result = validate(value) as [Result<T>]
-    let errors = result.filter { if case .error(_) = $0 { return true }; return false }
-    
-    if errors.isEmpty { return .ok(value) }
-    
-    let reasons: [PasswordStrengthValidationError] = errors.map {
-      if case let .error(reason) = $0 { return reason as! PasswordStrengthValidationError }
-      fatalError("This code should never be reached. It is an error if it ever hits.")
-    }
-    
-    switch reasons.first! {
-    case .length: return .error(PasswordStrengthValidationError.length)
-    case .missingLowercase: return .error(PasswordStrengthValidationError.missingLowercase)
-    case .missingUppercase: return .error(PasswordStrengthValidationError.missingUppercase)
-    case .missingNumber: return .error(PasswordStrengthValidationError.missingNumber)
-    case .missingSpecialCharacter: return .error(PasswordStrengthValidationError.missingSpecialCharacter)
-    }
-    
-//    return .error(PasswordValidationError.weak(reasoning: reasons))
-  }
 }
 
 class PasswordValidator: CompositeValidator {
   let validators: [Validator]
   
-  init() {
+  init(minLength: Int = PASSWORD_MIN_LENGTH, maxLength: Int = PASSWORD_MAX_LENGTH, charSet: CharacterSet = PASSWORD_SPECIAL_CHARSET) {
     self.validators = [
       PasswordEmptyValidator(),
-      PasswordStrengthValidator()
+      PasswordStrengthValidator(minLength: minLength, maxLength: maxLength, charSet: charSet)
     ]
   }
 }

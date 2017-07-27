@@ -10,7 +10,6 @@
 		60796E17BF81D3AAF14820D0 /* Pods_Login.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7608737CD76A0067AA68BD22 /* Pods_Login.framework */; };
 		996A07A41F2891B90031BF4E /* CharactetSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A079C1F2891B90031BF4E /* CharactetSet.swift */; };
 		996A07A51F2891B90031BF4E /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A079D1F2891B90031BF4E /* Core.swift */; };
-		996A07A61F2891B90031BF4E /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A079E1F2891B90031BF4E /* Double.swift */; };
 		996A07A71F2891B90031BF4E /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A079F1F2891B90031BF4E /* Empty.swift */; };
 		996A07A81F2891B90031BF4E /* EmptySpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A07A01F2891B90031BF4E /* EmptySpace.swift */; };
 		996A07A91F2891B90031BF4E /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A07A11F2891B90031BF4E /* Float.swift */; };
@@ -44,7 +43,6 @@
 		996A078A1F2886C10031BF4E /* Float+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Float+Extension.swift"; path = "Extension/Float+Extension.swift"; sourceTree = "<group>"; };
 		996A079C1F2891B90031BF4E /* CharactetSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CharactetSet.swift; path = Util/Validator/Core/CharactetSet.swift; sourceTree = "<group>"; };
 		996A079D1F2891B90031BF4E /* Core.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Core.swift; path = Util/Validator/Core/Core.swift; sourceTree = "<group>"; };
-		996A079E1F2891B90031BF4E /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Double.swift; path = Util/Validator/Core/Double.swift; sourceTree = "<group>"; };
 		996A079F1F2891B90031BF4E /* Empty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Empty.swift; path = Util/Validator/Core/Empty.swift; sourceTree = "<group>"; };
 		996A07A01F2891B90031BF4E /* EmptySpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmptySpace.swift; path = Util/Validator/Core/EmptySpace.swift; sourceTree = "<group>"; };
 		996A07A11F2891B90031BF4E /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Float.swift; path = Util/Validator/Core/Float.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			children = (
 				996A079C1F2891B90031BF4E /* CharactetSet.swift */,
 				996A079D1F2891B90031BF4E /* Core.swift */,
-				996A079E1F2891B90031BF4E /* Double.swift */,
 				996A079F1F2891B90031BF4E /* Empty.swift */,
 				996A07A01F2891B90031BF4E /* EmptySpace.swift */,
 				996A07A11F2891B90031BF4E /* Float.swift */,
@@ -176,8 +173,7 @@
 		999259071F2708C6006AE981 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				9992590D1F27093F006AE981 /* LoginVC.swift */,
-				9992590E1F27093F006AE981 /* LoginVCExtension.swift */,
+				99E0B1911F29D5570021C308 /* Login */,
 				9992590F1F27093F006AE981 /* Main.storyboard */,
 			);
 			name = Controller;
@@ -226,6 +222,15 @@
 				996A07641F28830F0031BF4E /* Custom */,
 			);
 			name = Validator;
+			sourceTree = "<group>";
+		};
+		99E0B1911F29D5570021C308 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9992590D1F27093F006AE981 /* LoginVC.swift */,
+				9992590E1F27093F006AE981 /* LoginVCExtension.swift */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,7 +370,6 @@
 				996A07A71F2891B90031BF4E /* Empty.swift in Sources */,
 				996A07A91F2891B90031BF4E /* Float.swift in Sources */,
 				996A07AA1F2891B90031BF4E /* Regex.swift in Sources */,
-				996A07A61F2891B90031BF4E /* Double.swift in Sources */,
 				996A07B01F2891C50031BF4E /* Email.swift in Sources */,
 				996A07B31F2891C50031BF4E /* Name.swift in Sources */,
 				996A07B21F2891C50031BF4E /* Quantity.swift in Sources */,

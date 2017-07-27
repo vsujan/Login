@@ -13,6 +13,8 @@ enum EmailValidationError: Error {
   case invalidFormat
 }
 
+let EMAIL_REGEX = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+
 extension EmailValidationError: LocalizedError {
   public var errorDescription: String? {
     switch self {
@@ -35,9 +37,7 @@ class EmailFormatValidator: RegexValidator {
   let REGEX: String
   let error: Error
   
-  static let regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-  
-  init(regex: String = regex, error: Error = EmailValidationError.invalidFormat) {
+  init(regex: String = EMAIL_REGEX, error: Error = EmailValidationError.invalidFormat) {
     self.REGEX = regex
     self.error = error
   }
@@ -47,10 +47,10 @@ class EmailFormatValidator: RegexValidator {
 class EmailValidator: CompositeValidator {
   let validators: [Validator]
   
-  init() {
+  init(regex: String = EMAIL_REGEX) {
     self.validators = [
       EmailEmptyValidator(),
-      EmailFormatValidator()
+      EmailFormatValidator(regex: regex)
     ]
   }
 }

@@ -13,6 +13,10 @@ enum QuantityValidationError: Error {
   case precision
 }
 
+let QUANTITY_MIN: Float = 0
+let QUANTITY_MAX: Float = 10
+let QUANTITY_PRECISION = 2
+
 extension QuantityValidationError: LocalizedError {
   public var errorDescription: String? {
     switch self {
@@ -22,23 +26,23 @@ extension QuantityValidationError: LocalizedError {
   }
 }
 
-class QuantityLimitValidator: DoubleLimitValidator {
-  var minQuantity: Double
-  var maxQuantity: Double
+class QuantityLimitValidator: FloatLimitValidator {
+  var minQuantity: Float
+  var maxQuantity: Float
   var error: Error
   
-  init(min: Double = 0.0, max: Double = 10.0, error: Error = QuantityValidationError.limit) {
+  init(min: Float = QUANTITY_MIN, max: Float = QUANTITY_MAX, error: Error = QuantityValidationError.limit) {
     self.minQuantity = min
     self.maxQuantity = max
     self.error = error
   }
 }
 
-class QuantityPrecisionValidator: DoublePrecisionValidator {
+class QuantityPrecisionValidator: FloatPrecisionValidator {
   var precisionLength: Int
   var error: Error
   
-  init(precisionLength: Int = 2, error: Error = QuantityValidationError.precision) {
+  init(precisionLength: Int = QUANTITY_PRECISION, error: Error = QuantityValidationError.precision) {
     self.precisionLength = precisionLength
     self.error = error
   }
@@ -47,7 +51,8 @@ class QuantityPrecisionValidator: DoublePrecisionValidator {
 class QuantityValidator: CompositeValidator {
   var validators: [Validator]
   
-  init() {
-    self.validators = [QuantityLimitValidator(), QuantityPrecisionValidator()]
+  init(max: Float = QUANTITY_MAX, min: Float = QUANTITY_MIN, precision: Int = QUANTITY_PRECISION) {
+    
+    self.validators = [QuantityLimitValidator(min: min, max: max), QuantityPrecisionValidator(precisionLength: precision)]
   }
 }

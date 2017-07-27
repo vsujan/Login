@@ -14,7 +14,7 @@ protocol EmptySpaceValidator: Validator {
 
 extension EmptySpaceValidator {
   func validate<T>(_ value: T) -> Result<T> {
-    let stringValue = value as! String
+    guard let stringValue = value as? String else { return .error(nil) }
     return !stringValue.hasEmptySpaceAtBeg ?
       .ok(value) :
       .error(self.error)

@@ -10,7 +10,7 @@ import UIKit
 
 enum Result<T> {
   case ok(T)
-  case error(Error)
+  case error(Error?)
   
   var value: T? {
     switch self {
@@ -56,8 +56,7 @@ extension CompositeValidator {
         return false
       }
     }
-    
     return errors.first ?? .ok(value)
   }
-  
+    
 }

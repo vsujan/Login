@@ -14,6 +14,8 @@ enum NameValidationError: Error {
   case length
 }
 
+let STRING_REGEX = "^[a-zA-Z]+( [a-zA-Z]+)*$"
+
 extension NameValidationError: LocalizedError {
   public var errorDescription: String? {
     switch self {
@@ -37,7 +39,7 @@ class NameFormatValidator: RegexValidator {
   let REGEX: String
   let error: Error
   
-  init(regex: String, error: Error = NameValidationError.invalidFormat) {
+  init(regex: String = STRING_REGEX, error: Error = NameValidationError.invalidFormat) {
     self.REGEX = regex
     self.error = error
   }
@@ -60,11 +62,8 @@ class NameLengthValidator: StringLengthValidator {
 
 class NameValidator: CompositeValidator {
   let validators: [Validator]
-  var regex = ""
-  static let REGEX = "^[a-zA-Z]+( [a-zA-Z]+)*$"
   
-  init(regex: String = REGEX) {
-    !regex.isEmpty ? (self.regex = regex) : (self.regex = NameValidator.REGEX)
+  init(regex: String = STRING_REGEX) {
     self.validators = [
       NameEmptyValidator(),
       NameFormatValidator(regex: regex),

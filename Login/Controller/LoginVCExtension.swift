@@ -29,8 +29,8 @@ extension LoginVC: UITextFieldDelegate {
       
     case .quantity:
       if let quantityText = textField.text {
-        if let doubleValue = quantityText.doubleValue {
-          quantityError.text = self.validate(value: doubleValue, validator: quantityValidator)
+        if let floatValue = quantityText.floatValue {
+          quantityError.text = self.validate(value: floatValue, validator: quantityValidator)
         }
       }
       

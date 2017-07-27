@@ -15,7 +15,7 @@ protocol CharacterSetValidator: Validator {
 
 extension CharacterSetValidator {
   func validate<T>(_ value: T) -> Result<T> {
-    let stringValue = value as! String
+    guard let stringValue = value as? String else { return .error(nil) }
     return stringValue.rangeOfCharacter(from: characterCase) != nil ?
       .ok(value) :
       .error(error)
@@ -30,7 +30,7 @@ protocol CharacterSetExclusiveValidator: Validator {
 
 extension CharacterSetExclusiveValidator {
   func validate<T>(_ value: T) -> Result<T> {
-    let stringValue = value as! String
+    guard let stringValue = value as? String else { return .error(nil) }
     return stringValue.rangeOfCharacter(from: characterCase) == nil ?
       .ok(value) :
       .error(error)

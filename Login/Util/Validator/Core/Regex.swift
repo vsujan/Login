@@ -16,8 +16,8 @@ protocol RegexValidator: Validator {
 extension RegexValidator {
   func validate<T>(_ value: T) -> Result<T> {
     let test = NSPredicate(format:"SELF MATCHES %@", self.REGEX)
-    
-    return test.evaluate(with: value) ?
+    guard let stringValue = value as? String else { return .error(nil) }
+    return test.evaluate(with: stringValue) ?
       .ok(value) :
       .error(self.error)
     
