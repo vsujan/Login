@@ -33,7 +33,7 @@ enum PasswordStrengthValidationError: Error {
 extension PasswordStrengthValidationError: LocalizedError {
   public var errorDescription: String? {
     switch self {
-    case .length: return NSLocalizedString("Password field cannot be empty", comment: "Empty password")
+    case .length: return NSLocalizedString("Password length is invalid", comment: "Invalid length")
     case .missingUppercase: return NSLocalizedString("Password does not contain uppercase", comment: "Invalid format")
     case .missingLowercase: return NSLocalizedString("Password does not contain lowercase", comment: "Invalid format")
     case .missingNumber: return NSLocalizedString("Password does not contain number", comment: "Invalid format")
@@ -133,7 +133,15 @@ class PasswordStrengthValidator: CompositeValidator {
       fatalError("This code should never be reached. It is an error if it ever hits.")
     }
     
-    return .error(PasswordValidationError.weak(reasoning: reasons))
+    switch reasons.first! {
+    case .length: return .error(PasswordStrengthValidationError.length)
+    case .missingLowercase: return .error(PasswordStrengthValidationError.missingLowercase)
+    case .missingUppercase: return .error(PasswordStrengthValidationError.missingUppercase)
+    case .missingNumber: return .error(PasswordStrengthValidationError.missingNumber)
+    case .missingSpecialCharacter: return .error(PasswordStrengthValidationError.missingSpecialCharacter)
+    }
+    
+//    return .error(PasswordValidationError.weak(reasoning: reasons))
   }
 }
 
